@@ -1,0 +1,117 @@
+//
+//  OnboardController.swift
+//  Workout
+//
+//  Created by Рустам Амирханов on 09.04.2020.
+//  Copyright © 2020 IDOLE. All rights reserved.
+//
+
+import UIKit
+
+class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var continueButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupTableView()
+        setupNavigationBar()
+        setupContinueButton()
+    }
+    
+    //MARK:- Настройка кнопки
+    
+    fileprivate func setupContinueButton() {
+        let gradient = CAGradientLayer()
+        
+        let colorLeft = #colorLiteral(red: 0.968627451, green: 0.3333333333, blue: 0.431372549, alpha: 1).cgColor
+        let colorRight = #colorLiteral(red: 0.8666666667, green: 0.0862745098, blue: 0.4392156863, alpha: 1).cgColor
+        gradient.colors = [colorLeft, colorRight]
+        
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradient.frame = continueButton.bounds
+        
+        continueButton.layer.addSublayer(gradient)
+        continueButton.setTitleColor(.white, for: .normal)
+    }
+    
+    
+    @IBAction func continueButtonTapped(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(identifier: "goalsController") as! GoalsController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    //MARK:- NavigationBar
+    
+    func setupNavigationBar() {
+        setupNavigationBarTitle()
+        setupNavigationBarLayout()
+        setupNavigationBarBackButton()
+    }
+    
+    func setupNavigationBarTitle() {
+        title = "Шаг 1 из 3"
+    }
+    
+    func setupNavigationBarBackButton() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+    }
+    
+    func setupNavigationBarLayout() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    //MARK:- TableView
+    
+    func setupTableView() {
+        setupTableViewData()
+        setupTableViewLayout()
+    }
+    
+    func setupTableViewData() {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    func setupTableViewLayout() {
+        tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return onboardArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! OnboardCell
+        let section = onboardArray[indexPath.row]
+        
+        cell.titleLabel.text = section.title
+        cell.captionLabel.text = section.caption
+        cell.checkImageView.isHidden = true
+        
+        let selectionView = UIView()
+        selectionView.backgroundColor = .clear
+        cell.selectedBackgroundView = selectionView
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? OnboardCell {
+            cell.checkImageView.isHidden = true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? OnboardCell {
+            cell.checkImageView.isHidden = false
+            cell.checkImageView.image = #imageLiteral(resourceName: "check_22").withRenderingMode(.alwaysTemplate)
+            cell.checkImageView.tintColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
+        }
+    }
+}
