@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -15,7 +16,7 @@ class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+continueButton.isHidden = true
         setupTableView()
         setupNavigationBar()
         setupContinueButton()
@@ -40,6 +41,7 @@ class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBAction func continueButtonTapped(_ sender: Any) {
+        AudioServicesPlaySystemSound(1520)
         let vc = storyboard?.instantiateViewController(identifier: "goalsController") as! GoalsController
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -108,6 +110,7 @@ class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        continueButton.isHidden = false
         if let cell = tableView.cellForRow(at: indexPath) as? OnboardCell {
             cell.checkImageView.isHidden = false
             cell.checkImageView.image = #imageLiteral(resourceName: "check_22").withRenderingMode(.alwaysTemplate)

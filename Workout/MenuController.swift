@@ -40,7 +40,7 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
         wave_3.transform = CGAffineTransform(translationX: 0, y: 40)
         
         let kcal = sum * 12
-        kcalLabel.text = "≈ \(kcal) ккал"
+        kcalLabel.text = "≈ \(Int(kcal)) ккал"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,7 +64,7 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
             do {
                 try fetchResultController.performFetch() // Получение данных с CoreData
                 historyArray = fetchResultController.fetchedObjects! // Присвоение данных в массив
-                print(historyArray)
+                historyArray = historyArray.reversed()
             } catch let error as NSError  {
                 print(error.localizedDescription)
             }
@@ -100,6 +100,7 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
     
     func setupTableViewLayout() {
         tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView(frame: .zero)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -109,12 +110,11 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! MenuCell
         let section = historyArray[indexPath.row]
-        let url = "https://www.byidole.com/"
         
         cell.titleLabel.text = section.title  ?? "Нет данных"
         cell.dateLabel.text = section.date  ?? "Нет данных"
         cell.levelLabel.text = section.level ?? "Нет данных"
-        cell.coverImageView.sd_setImage(with: URL(string: "\(url)\(section.img ?? "")")) { (image, error, cache, url) in
+        cell.coverImageView.sd_setImage(with: URL(string: section.img ?? "")) { (image, error, cache, url) in
             if (error != nil) {
                 cell.activityIndicator.startAnimating()
             } else {

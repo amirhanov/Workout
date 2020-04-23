@@ -1,7 +1,7 @@
 import UIKit
 import Foundation
 
-let subscriptionArray = [
+var subscriptionArray = [
     "Еженедельный план тренировок, питания и заданий",
     "Доступ к 100+ тренировкам и подсказкам",
     "Полезные и правильные рецепты",

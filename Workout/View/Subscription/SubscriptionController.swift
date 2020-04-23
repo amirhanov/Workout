@@ -28,7 +28,7 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
 
         annualView.layer.borderWidth = 3
         annualView.layer.borderColor = #colorLiteral(red: 0.137254902, green: 0.737254902, blue: 0.4470588235, alpha: 1)
-        
+        subscriptionArray.append("Нажмите, чтобы продолжить бесплатно")
         setupTableView()
         setupTextAndLink()
         setupNavigationBar()
@@ -138,6 +138,10 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
         
         cell.nameLabel.text = subscriptionArray[indexPath.row]
         
+        if indexPath.row == 4 {
+            cell.nameLabel.textColor = .lightGray
+        }
+    
         let selectedView = UIView()
         selectedView.backgroundColor = .clear
         cell.selectedBackgroundView = selectedView
@@ -146,6 +150,15 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        if section == 0 && row == 4 {
+            AudioServicesPlaySystemSound(1520)
+            let vc = storyboard?.instantiateViewController(identifier: "homeController")
+            self.present(vc!, animated: true)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

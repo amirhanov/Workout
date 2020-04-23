@@ -102,12 +102,13 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func setupNavigationBarLeftButton() {
-        let menuButton = UIBarButtonItem()
-        menuButton.image = #imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysOriginal)
-        menuButton.style = .plain
-        menuButton.target = self
-        menuButton.action = #selector(handleClose)
-        self.navigationItem.leftBarButtonItem  = menuButton
+        let menuButton = UIButton()
+        let menuBarItem = UIBarButtonItem(customView: menuButton)
+        menuButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
+        menuButton.tintColor = .black
+        menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
+        menuButton.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
     @objc func handleClose() {

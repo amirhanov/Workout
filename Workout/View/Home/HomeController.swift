@@ -18,11 +18,10 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var subscriptionButton: UIButton!
-    @IBOutlet weak var showAllButton: UIButton!
     
     let animationModel = AnimationModel()
     let spAlertModel = SPAlertModel()
-    let items = ["Быстрая тренировка", "Оценить приложение", "Написать нам"]
+    let items = ["Поделиться", "Оценить", "Написать нам"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +32,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setupCollectionView()
     }
     
-    
     @IBAction func subscriptionButtonTapped(_ sender: Any) {
+        AudioServicesPlaySystemSound(1520)
     }
     
     //MARK:- PageControl
@@ -91,6 +90,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @objc func handleMenu() {
+        AudioServicesPlaySystemSound(1520)
         let vc = storyboard?.instantiateViewController(identifier: "menuController")
         self.present(vc!, animated: true)
     }
@@ -167,6 +167,20 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
+        //MARK:- BlurView
+
+            
+        let shadowLayer = CAGradientLayer()
+        let colorBottom = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
+        let colorTop = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0).cgColor
+        
+        shadowLayer.colors = [colorTop, colorBottom]
+        shadowLayer.frame = cell.shadowView.bounds
+        
+        cell.shadowView.layer.insertSublayer(shadowLayer, at: 0)
+        cell.shadowView.backgroundColor = .clear
+        
+        
         return cell
     }
     
@@ -202,9 +216,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-         if (indexPath.row == sectionArray.count - 1 ) {
-            animationModel.scaleAnimationButton(sender: showAllButton, scaleX: 1.1, scaleY: 1.1, duration: 0.3)
-         }
+         //
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -270,11 +282,12 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        AudioServicesPlaySystemSound(1520)
         let section = indexPath.section
         let row = indexPath.row
         
         if section == 0 && row == 0 {
-            
+            self.shareApp()
         } else if section == 0 && row == 1 {
             self.rateApp(appID: "")
         } else if section == 0 && row == 2 {
@@ -296,6 +309,20 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else { UIApplication.shared.openURL(url) }
         }
+    }
+    
+    //MARK:- Поделиться
+    
+    func shareApp() {
+        let text = "This is the text...."
+        let image = #imageLiteral(resourceName: "star_22")
+        let url = ""
+        let shareAll = [image, text, url] as [Any]
+        let activityViewController = UIActivityViewController(activityItems: shareAll,
+                                                              applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+
     }
     
     //MARK:- Почта

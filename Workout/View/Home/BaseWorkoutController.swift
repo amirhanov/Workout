@@ -81,6 +81,7 @@ class BaseWorkoutController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        AudioServicesPlaySystemSound(1520)
         openWorkout(url: baseWorkoutArray[indexPath.row].url)
         collectionView.deselectItem(at: indexPath, animated: true)
     }

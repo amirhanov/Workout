@@ -37,7 +37,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupVideoView()
+        
     }
     
     @IBAction func dismissButtonTapped(_ sender: Any) {
@@ -100,7 +100,6 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     //MARK:-
-    
     func setupVideoView() {
         let videoURL = URL(string: "http://byidole.com/\(data.previewVideo)")
         let player = AVPlayer(url: videoURL!)
@@ -163,5 +162,19 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension WorkoutDetailController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > 460 {
+            dismissButton.backgroundColor = .black
+            dismissButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
+            dismissButton.tintColor = .white
+        } else {
+            dismissButton.backgroundColor = .white
+            dismissButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
+            dismissButton.tintColor = .black
+        }
     }
 }

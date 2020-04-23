@@ -96,6 +96,7 @@ class NutritionController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        AudioServicesPlaySystemSound(1520)
         openWorkout(url: nutritionArray[indexPath.row].url)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
