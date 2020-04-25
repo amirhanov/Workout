@@ -96,11 +96,13 @@ class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSou
         cell.checkImageView.isHidden = true
         
         let selectionView = UIView()
-        selectionView.backgroundColor = .clear
+        selectionView.backgroundColor = UIColor(named: "SelectedColor")
         cell.selectedBackgroundView = selectionView
         
         return cell
     }
+    
+    
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? GoalsCell {
@@ -110,6 +112,7 @@ class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         continueButton.isHidden = false
+        AudioServicesPlaySystemSound(1520)
         if let cell = tableView.cellForRow(at: indexPath) as? GoalsCell {
             cell.checkImageView.isHidden = false
             cell.checkImageView.image = #imageLiteral(resourceName: "check_22").withRenderingMode(.alwaysTemplate)

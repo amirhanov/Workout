@@ -12,21 +12,21 @@ struct BaseWorkoutModel {
 let baseWorkoutArray: [BaseWorkoutModel] = [
     BaseWorkoutModel(img: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/squats.png",
                      title: "Приседания",
-                     description: "Начинающий • Ягодицы",
+                     description: "Ягодицы",
                      url: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/video/squats.mp4"),
     
     BaseWorkoutModel(img: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/pushups.png",
                      title: "Отжимания",
-                     description: "Начинающий • Грудь",
+                     description: "Грудь",
                      url: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/video/pushups.mp4"),
     
     BaseWorkoutModel(img: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/backpushups.png",
                      title: "Обратные отжимания",
-                     description: "Продвинутый • Трицепс",
+                     description: "Трицепс",
                      url: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/video/backpushups.mp4"),
     
     BaseWorkoutModel(img: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/strap.png",
                      title: "Планка",
-                     description: "Средний • Пресс",
+                     description: "Пресс",
                      url: "https://s3.eu-north-1.amazonaws.com/workout.apps/workouts_base/video/strap.mp4")
 ]

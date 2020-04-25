@@ -9,6 +9,10 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     let gradientModel = GradientModel()
     let animationModel = AnimationModel()
     
+    //@IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var airplayImageView: UIImageView!
+    @IBOutlet weak var airplayLabel: UILabel!
+    @IBOutlet weak var airplayView: UIView!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var videoView: UIView!
@@ -21,14 +25,16 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         getData()
         setupBlurView()
         setupVideoView()
         setupTableView()
         setupStartButton()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        setupBlurView()
     }
     
     @objc func playerDidFinishPlaying(note: NSNotification) {
@@ -41,6 +47,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func dismissButtonTapped(_ sender: Any) {
+        AudioServicesPlaySystemSound(1520)
         dismiss(animated: true, completion: nil)
     }
     
@@ -49,6 +56,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
         titleLabel.text = data.title
         timeLabel.text = "\(data.level) - \(data.duration)"
         descriptionLabel.text = data.description
+        //coverImageView.sd_setImage(with: URL(string: data.img), completed: nil)
     }
     
     func saveData() {
@@ -77,10 +85,13 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
         self.present(playerViewController, animated: true) {
+            AudioServicesPlaySystemSound(1520)
             playerViewController.player!.play()
             let assets = AVAsset(url: videoURL!)
             let duration = assets.duration
             self.durationData =  Float(CMTimeGetSeconds(duration) / 60)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
         }
     }
     
@@ -116,10 +127,10 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     func setupBlurView() {
         
         let gradientLayer = CAGradientLayer()
-        let colorBottom = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).cgColor
-        let colorTop = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0).cgColor
+        let colorBottom = UIColor(named: "ShadowColor")?.cgColor
+        let colorTop = UIColor(named: "ShadowColor")?.withAlphaComponent(0).cgColor
         
-        gradientLayer.colors = [colorTop, colorBottom]
+        gradientLayer.colors = [colorTop!, colorBottom!]
         gradientLayer.frame = blurView.bounds
         
         blurView.layer.insertSublayer(gradientLayer, at: 0)
@@ -153,6 +164,10 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
         cell.typeLabel.text = "123"
         cell.timeLabel.text = "123"
         
+        let selectedView = UIView()
+        selectedView.backgroundColor = .clear
+        cell.selectedBackgroundView = selectedView
+        
         return cell
     }
     
@@ -168,13 +183,21 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
 extension WorkoutDetailController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 460 {
-            dismissButton.backgroundColor = .black
+            dismissButton.backgroundColor = UIColor(named: "PrimaryColor")
             dismissButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
-            dismissButton.tintColor = .white
+            dismissButton.tintColor = UIColor(named: "ReverseColor")
+            
+            airplayView.backgroundColor = UIColor(named: "PrimaryColor")
+            airplayLabel.textColor = UIColor(named: "ReverseColor")
+            airplayImageView.tintColor = UIColor(named: "ReverseColor")
         } else {
-            dismissButton.backgroundColor = .white
+            dismissButton.backgroundColor = UIColor(named: "ReverseColor")
             dismissButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
-            dismissButton.tintColor = .black
+            dismissButton.tintColor = UIColor(named: "PrimaryColor")
+            
+            airplayView.backgroundColor = UIColor(named: "ReverseColor")
+            airplayLabel.textColor = UIColor(named: "PrimaryColor")
+            airplayImageView.tintColor = UIColor(named: "PrimaryColor")
         }
     }
 }

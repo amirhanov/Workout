@@ -97,7 +97,7 @@ continueButton.isHidden = true
         cell.checkImageView.isHidden = true
         
         let selectionView = UIView()
-        selectionView.backgroundColor = .clear
+        selectionView.backgroundColor = UIColor(named: "SelectedColor")
         cell.selectedBackgroundView = selectionView
         
         return cell
@@ -111,6 +111,7 @@ continueButton.isHidden = true
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         continueButton.isHidden = false
+        AudioServicesPlaySystemSound(1520)
         if let cell = tableView.cellForRow(at: indexPath) as? OnboardCell {
             cell.checkImageView.isHidden = false
             cell.checkImageView.image = #imageLiteral(resourceName: "check_22").withRenderingMode(.alwaysTemplate)

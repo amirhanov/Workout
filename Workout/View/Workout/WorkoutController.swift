@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import AudioToolbox
 
 class WorkoutController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -120,7 +121,7 @@ class WorkoutController: UIViewController, UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = data.array[indexPath.row]
-        
+        AudioServicesPlaySystemSound(1520)
         let vc = storyboard?.instantiateViewController(identifier: "workoutDetailController") as! WorkoutDetailController
         vc.data = section
         self.present(vc, animated: true)

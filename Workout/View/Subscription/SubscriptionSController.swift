@@ -30,7 +30,6 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
 
         annualView.layer.borderWidth = 3
         annualView.layer.borderColor = #colorLiteral(red: 0.137254902, green: 0.737254902, blue: 0.4470588235, alpha: 1)
-        
         startTimer()
         setupTableView()
         setupTextAndLink()
@@ -105,8 +104,8 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
         let menuButton = UIButton()
         let menuBarItem = UIBarButtonItem(customView: menuButton)
         menuButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
-        menuButton.tintColor = .black
-        menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
+        menuButton.tintColor = UIColor(named: "PrimaryColor")
+        menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 14, height: 14)
         menuButton.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
@@ -160,13 +159,13 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subscriptionArray.count
+        return subscriptionAnyArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! SubscriptionSCell
         
-        cell.nameLabel.text = subscriptionArray[indexPath.row]
+        cell.nameLabel.text = subscriptionAnyArray[indexPath.row]
         
         let selectedView = UIView()
         selectedView.backgroundColor = .clear
@@ -177,6 +176,10 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
     
     //MARK:- Настройка таймера

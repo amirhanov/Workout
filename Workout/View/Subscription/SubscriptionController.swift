@@ -28,7 +28,7 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
 
         annualView.layer.borderWidth = 3
         annualView.layer.borderColor = #colorLiteral(red: 0.137254902, green: 0.737254902, blue: 0.4470588235, alpha: 1)
-        subscriptionArray.append("Нажмите, чтобы продолжить бесплатно")
+        subscriptionArray.append("Бесплатно продолжить")
         setupTableView()
         setupTextAndLink()
         setupNavigationBar()
@@ -38,6 +38,7 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         let indexPath = IndexPath(item: 1, section: 0)
         self.collectionView.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
     }
@@ -138,8 +139,8 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
         
         cell.nameLabel.text = subscriptionArray[indexPath.row]
         
-        if indexPath.row == 4 {
-            cell.nameLabel.textColor = .lightGray
+        if indexPath.row == 3 {
+            cell.nameLabel.textColor = UIColor(named: "SecondaryColor")
         }
     
         let selectedView = UIView()
@@ -149,14 +150,19 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = indexPath.section
         let row = indexPath.row
         
-        if section == 0 && row == 4 {
+        if section == 0 && row == 3 {
             AudioServicesPlaySystemSound(1520)
             let vc = storyboard?.instantiateViewController(identifier: "homeController")
             self.present(vc!, animated: true)
+            UserDefaults.standard.set(true, forKey: "isOnboardViewed")
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

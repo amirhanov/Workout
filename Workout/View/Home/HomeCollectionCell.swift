@@ -10,6 +10,7 @@ import UIKit
 
 class HomeCollectionCell: UICollectionViewCell {
     
+    @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var animatedView: UIView!
     @IBOutlet weak var infoStackView: UIStackView!

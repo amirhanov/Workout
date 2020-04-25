@@ -10,7 +10,7 @@ struct OnboardModel {
 let onboardArray: [OnboardModel] = [
     OnboardModel(title: "Новичок", caption: "Ты только начинаешь тренироваться"),
     OnboardModel(title: "Средний", caption: "Ты тренируешься регулярно"),
-    OnboardModel(title: "Продвинутый", caption: "Ты в хорошей форме и готов к интенсивным тренировкам")
+    OnboardModel(title: "Продвинутый", caption: "Ты готов к интенсивным тренировкам")
 ]
 
 let goalArray: [OnboardModel] = [

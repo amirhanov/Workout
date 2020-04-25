@@ -19,6 +19,8 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
 
     fileprivate var historyArray: [Workouts] = []
     
+    @IBOutlet weak var historyLabel: UILabel!
+    @IBOutlet weak var randomLabel: UILabel!
     @IBOutlet weak var minCountLabel: UILabel!
     @IBOutlet weak var workoutCountLabel: UILabel!
     @IBOutlet weak var wave_2: UIImageView!
@@ -46,6 +48,13 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupAnimation()
+        randomCount()
+    }
+    
+    func randomCount() {
+        let randomInt = Int.random(in: 1000..<99999)
+        
+        randomLabel.text = "Вы продуктивнее \(randomInt) пользователей"
     }
     
     fileprivate var fetchResultController: NSFetchedResultsController<Workouts>!
@@ -68,6 +77,10 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
             } catch let error as NSError  {
                 print(error.localizedDescription)
             }
+        }
+        
+        if historyArray.count == 0 {
+            historyLabel.text = " "
         }
     }
     

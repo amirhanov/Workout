@@ -32,6 +32,17 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setupCollectionView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let status = UserDefaults.standard.bool(forKey: "isOnboardViewed")
+        
+        if status == true { } else {
+            let vc = storyboard?.instantiateViewController(identifier: "onboardController")
+            self.present(vc!, animated: true)
+        }
+    }
+    
     @IBAction func subscriptionButtonTapped(_ sender: Any) {
         AudioServicesPlaySystemSound(1520)
     }
@@ -62,7 +73,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func setupNavigationBarLeftButton() {
         let menuButton = UIBarButtonItem()
-        menuButton.image = #imageLiteral(resourceName: "menu_22").withRenderingMode(.alwaysOriginal)
+        menuButton.image = #imageLiteral(resourceName: "menu_22").withRenderingMode(.alwaysTemplate)
+        menuButton.tintColor = UIColor(named: "PrimaryColor")
         menuButton.style = .plain
         menuButton.target = self
         menuButton.action = #selector(handleMenu)
@@ -153,8 +165,10 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         if section.isLock == false {
+            cell.captionLabel.text = section.caption
             cell.lockImageView.isHidden = true
         } else {
+            cell.captionLabel.text = "ЗАКРЫТО"
             cell.lockImageView.isHidden = false
         }
         
@@ -169,7 +183,6 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //MARK:- BlurView
 
-            
         let shadowLayer = CAGradientLayer()
         let colorBottom = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
         let colorTop = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0).cgColor
@@ -263,7 +276,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         let selectedView = UIView()
-        selectedView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.3333333333, blue: 0.431372549, alpha: 0.1)
+        selectedView.backgroundColor = UIColor(named: "SelectedColor")
         cell.selectedBackgroundView = selectedView
         
         return cell
