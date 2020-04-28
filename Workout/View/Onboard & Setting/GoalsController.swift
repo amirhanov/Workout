@@ -22,6 +22,10 @@ class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSou
         setupContinueButton()
     }
     
+    override func viewDidLayoutSubviews() {
+        gradient.frame = continueButton.bounds
+    }
+    
     @IBAction func continueButtonTapped(_ sender: Any) {
         AudioServicesPlaySystemSound(1520)
         let vc = storyboard?.instantiateViewController(identifier: "subscriptionController") as! SubscriptionController
@@ -30,9 +34,8 @@ class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //MARK:- Настройка кнопки
     
+    let gradient = CAGradientLayer()
     fileprivate func setupContinueButton() {
-        let gradient = CAGradientLayer()
-        
         let colorLeft = #colorLiteral(red: 0.968627451, green: 0.3333333333, blue: 0.431372549, alpha: 1).cgColor
         let colorRight = #colorLiteral(red: 0.8666666667, green: 0.0862745098, blue: 0.4392156863, alpha: 1).cgColor
         gradient.colors = [colorLeft, colorRight]
@@ -101,8 +104,6 @@ class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         return cell
     }
-    
-    
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? GoalsCell {

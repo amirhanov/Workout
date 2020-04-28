@@ -46,6 +46,7 @@
 		7F7C60B82435057F0046D63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7C60B62435057F0046D63E /* LaunchScreen.storyboard */; };
 		7F8CB7E3243657F900CBEFB1 /* AnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CB7E2243657F900CBEFB1 /* AnimationModel.swift */; };
 		7F8CB7E6243658E200CBEFB1 /* SPAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CB7E5243658E200CBEFB1 /* SPAlertModel.swift */; };
+		7FAD541A2455F05C0070635D /* SSKModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAD54192455F05C0070635D /* SSKModel.swift */; };
 		7FDF513D243E3DAC00945749 /* WorkoutDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDF513C243E3DAC00945749 /* WorkoutDetailCell.swift */; };
 		7FE150B0243E4E0D00B6BCEF /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE150AF243E4E0D00B6BCEF /* VideoModel.swift */; };
 		7FF657752437B50300A51406 /* DPBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7FF657742437B50200A51406 /* DPBoldItalic.otf */; };
@@ -96,6 +97,7 @@
 		7F7C60B92435057F0046D63E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F8CB7E2243657F900CBEFB1 /* AnimationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationModel.swift; sourceTree = "<group>"; };
 		7F8CB7E5243658E200CBEFB1 /* SPAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPAlertModel.swift; sourceTree = "<group>"; };
+		7FAD54192455F05C0070635D /* SSKModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSKModel.swift; sourceTree = "<group>"; };
 		7FDF513C243E3DAC00945749 /* WorkoutDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailCell.swift; sourceTree = "<group>"; };
 		7FE150AF243E4E0D00B6BCEF /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		7FF657742437B50200A51406 /* DPBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DPBoldItalic.otf; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				7F45B8DE24420D7D00FAA9EB /* ButtonModel.swift */,
 				7F45B8E42442136200FAA9EB /* SubscriptionModel.swift */,
 				7F70CE39244760B700B9DCD6 /* RecipeModel.swift */,
+				7FAD54192455F05C0070635D /* SSKModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				7F5F4D5A244B4E5D00E43C1C /* SubscriptionSCell.swift in Sources */,
 				7F70CE3A244760B700B9DCD6 /* RecipeModel.swift in Sources */,
 				7F45B8DD24420A5800FAA9EB /* GoalsController.swift in Sources */,
+				7FAD541A2455F05C0070635D /* SSKModel.swift in Sources */,
 				7F8CB7E6243658E200CBEFB1 /* SPAlertModel.swift in Sources */,
 				7F26768B243782D100676F2A /* HomeCollectionCell.swift in Sources */,
 				7F14BB85243CABBA0008ED6E /* WorkoutsCell.swift in Sources */,
@@ -571,7 +575,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Workout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -590,7 +594,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Workout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

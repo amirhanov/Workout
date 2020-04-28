@@ -24,6 +24,7 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var hoursLabel: UILabel!
     
     let animationModel = AnimationModel()
+    let sskModel = SSKModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +98,7 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @objc func handleRestore() {
-        
+        sskModel.restoreAction()
     }
     
     func setupNavigationBarLeftButton() {

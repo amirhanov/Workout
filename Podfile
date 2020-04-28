@@ -11,5 +11,6 @@ target 'Workout' do
  pod 'SDWebImage'
  pod 'KDCircularProgress'
  pod 'Tabman'
+ pod 'SwiftyStoreKit'
 
 end

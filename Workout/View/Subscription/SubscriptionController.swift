@@ -22,6 +22,7 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var subscriptionTextView: UITextView!
     
     let animationModel = AnimationModel()
+    let sskModel = SSKModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +103,7 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func handleRestore() {
-        
+        sskModel.restoreAction()
     }
     
     func setupNavigationBarBackButton() {

@@ -16,17 +16,20 @@ class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-continueButton.isHidden = true
+        continueButton.isHidden = true
         setupTableView()
         setupNavigationBar()
         setupContinueButton()
     }
     
+    override func viewDidLayoutSubviews() {
+        gradient.frame = continueButton.bounds
+    }
+    
     //MARK:- Настройка кнопки
     
+    let gradient = CAGradientLayer()
     fileprivate func setupContinueButton() {
-        let gradient = CAGradientLayer()
-        
         let colorLeft = #colorLiteral(red: 0.968627451, green: 0.3333333333, blue: 0.431372549, alpha: 1).cgColor
         let colorRight = #colorLiteral(red: 0.8666666667, green: 0.0862745098, blue: 0.4392156863, alpha: 1).cgColor
         gradient.colors = [colorLeft, colorRight]

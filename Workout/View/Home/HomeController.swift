@@ -11,6 +11,7 @@ import StoreKit
 import MessageUI
 import SDWebImage
 import AudioToolbox
+import SwiftyStoreKit
 
 class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, MFMailComposeViewControllerDelegate {
     
@@ -21,6 +22,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let animationModel = AnimationModel()
     let spAlertModel = SPAlertModel()
+    let sskModel = SSKModel()
     let items = ["Поделиться", "Оценить", "Написать нам"]
     
     override func viewDidLoad() {
@@ -37,14 +39,22 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let status = UserDefaults.standard.bool(forKey: "isOnboardViewed")
         
-        if status == true { } else {
+        if status == true {
+            //validateSubscribe()
+        } else {
             let vc = storyboard?.instantiateViewController(identifier: "onboardController")
             self.present(vc!, animated: true)
         }
     }
-    
+
     @IBAction func subscriptionButtonTapped(_ sender: Any) {
         AudioServicesPlaySystemSound(1520)
+    }
+    
+    //MARK:- Валидация подписки
+    
+    func validateSubscribe() {
+        sskModel.validateAction(sharedSecret: "")
     }
     
     //MARK:- PageControl

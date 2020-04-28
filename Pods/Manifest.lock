@@ -5,6 +5,7 @@ PODS:
     - SDWebImage/Core (= 5.6.1)
   - SDWebImage/Core (5.6.1)
   - SPAlert (2.1.2)
+  - SwiftyStoreKit (0.15.0)
   - Tabman (2.8.0):
     - Pageboy (~> 3.5.0)
 
@@ -12,6 +13,7 @@ DEPENDENCIES:
   - KDCircularProgress
   - SDWebImage
   - SPAlert
+  - SwiftyStoreKit
   - Tabman
 
 SPEC REPOS:
@@ -20,6 +22,7 @@ SPEC REPOS:
     - Pageboy
     - SDWebImage
     - SPAlert
+    - SwiftyStoreKit
     - Tabman
 
 SPEC CHECKSUMS:
@@ -27,8 +30,9 @@ SPEC CHECKSUMS:
   Pageboy: 3794c578aae5fcce06e90b3ed4a0ad6b807d75bb
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
   SPAlert: a70e4ece7f12f62d0a42b12662308a3ba4db43fb
+  SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
   Tabman: f62ad94ee54a7d96e3fbab34f677d9ea4d38ece6
 
-PODFILE CHECKSUM: fc291d05c284e7dc590690c4c6614cc93f46c8a2
+PODFILE CHECKSUM: 7a91df445fb3d5440765fb693f692173a324b413
 
 COCOAPODS: 1.7.5
