@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import Firebase
+import FacebookCore
 import AudioToolbox
+import YandexMobileMetrica
 
 class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var continueButton: UIButton!
+    
+    let analyticModel = AnalyticModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,6 +120,7 @@ class OnboardController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         continueButton.isHidden = false
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Экран_настройки", key: "Уровень", value: onboardArray[indexPath.row].title)
         if let cell = tableView.cellForRow(at: indexPath) as? OnboardCell {
             cell.checkImageView.isHidden = false
             cell.checkImageView.image = #imageLiteral(resourceName: "check_22").withRenderingMode(.alwaysTemplate)

@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import Firebase
+import FacebookCore
 import AudioToolbox
+import YandexMobileMetrica
 
 class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var continueButton: UIButton!
+    
+    let analyticModel = AnalyticModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +119,7 @@ class GoalsController: UIViewController, UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         continueButton.isHidden = false
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Экран_настройки", key: "Цель", value: goalArray[indexPath.row].title)
         if let cell = tableView.cellForRow(at: indexPath) as? GoalsCell {
             cell.checkImageView.isHidden = false
             cell.checkImageView.image = #imageLiteral(resourceName: "check_22").withRenderingMode(.alwaysTemplate)

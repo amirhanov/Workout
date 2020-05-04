@@ -8,12 +8,17 @@
 
 import UIKit
 import AVKit
+import Firebase
 import SDWebImage
 import AVFoundation
+import FacebookCore
+import YandexMobileMetrica
 
 class BaseWorkoutController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    let analyticModel = AnalyticModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +87,7 @@ class BaseWorkoutController: UIViewController, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Открыть_базовое_упражнение", key: "Упражнение", value: baseWorkoutArray[indexPath.row].title)
         openWorkout(url: baseWorkoutArray[indexPath.row].url)
         collectionView.deselectItem(at: indexPath, animated: true)
     }

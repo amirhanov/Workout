@@ -8,12 +8,17 @@
 
 import UIKit
 import AVKit
+import Firebase
 import SDWebImage
+import FacebookCore
 import AVFoundation
+import YandexMobileMetrica
 
 class NutritionController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    let analyticModel = AnalyticModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +102,7 @@ class NutritionController: UIViewController, UICollectionViewDataSource, UIColle
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Открыть_тренировку_недели", key: "Тип", value: nutritionArray[indexPath.row].title)
         openWorkout(url: nutritionArray[indexPath.row].url)
         collectionView.deselectItem(at: indexPath, animated: true)
     }

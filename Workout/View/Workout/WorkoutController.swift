@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import Firebase
 import SDWebImage
+import FacebookCore
 import AudioToolbox
+import YandexMobileMetrica
 
 class WorkoutController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     var data: SectionModel!
+    let analyticModel = AnalyticModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +111,25 @@ class WorkoutController: UIViewController, UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            let width = view.frame.width - 32
+            return CGSize(width: width, height: 120)
+        case .pad:
+            let width = (view.frame.width - 16*3)/2
+            return CGSize(width: width, height: 120)
+        case .unspecified:
+            let width = view.frame.width - 32
+            return CGSize(width: width, height: 120)
+        case .tv:
+            print("tvOS")
+        case .carPlay:
+            print("carPlay")
+        @unknown default:
+            let width = view.frame.width - 32
+            return CGSize(width: width, height: 120)
+        }
+        
         let width = view.frame.width - 32
         return CGSize(width: width, height: 120)
     }
@@ -122,6 +145,7 @@ class WorkoutController: UIViewController, UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = data.array[indexPath.row]
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Перейти_к_тренировке", key: "Тренировка", value: data.array[indexPath.row].title)
         let vc = storyboard?.instantiateViewController(identifier: "workoutDetailController") as! WorkoutDetailController
         vc.data = section
         self.present(vc, animated: true)

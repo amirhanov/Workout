@@ -15,9 +15,22 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb225412378877762</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>225412378877762</string>
+	<key>FacebookDisplayName</key>
+	<string>Workout</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -26,10 +39,10 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>item 1</key>
-			<string>https://s3.eu-north-1.amazonaws.com/</string>
 			<key>Item 0</key>
 			<string>https://www.byidole.com/</string>
+			<key>item 1</key>
+			<string>https://s3.eu-north-1.amazonaws.com/</string>
 		</dict>
 	</dict>
 	<key>UIAppFonts</key>

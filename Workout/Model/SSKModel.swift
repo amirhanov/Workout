@@ -15,9 +15,9 @@ class SSKModel {
                                        ""])
                 let purchaseResult = SwiftyStoreKit.verifySubscriptions(productIds: productIds, inReceipt: receipt)
                 switch purchaseResult {
-                case .purchased(let expiryDate, let receiptItems):
+                case .purchased( _, _):
                     print("Покупка есть")
-                case .expired(let expiryDate, let receiptItems):
+                case .expired( _, _):
                     print("Покупки нет")
                 case .notPurchased:
                     print("Покупки нет")

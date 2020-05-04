@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Firebase
+import YandexMobileMetrica
+import FirebaseCoreDiagnostics
+import YandexMobileMetricaCrashes
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,8 +21,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         setupTabbar()
+        setupAnalytics()
         
         return true
+    }
+    
+    //MARK:- Аналитика
+    
+    func setupAnalytics() {
+        setupYandex()
+        setupFirebase()
+    }
+    
+    func setupFirebase() {
+        FirebaseApp.configure()
+    }
+    
+    func setupYandex() {
+        let configuration = YMMYandexMetricaConfiguration.init(apiKey: "5a0ef0d5-8775-46dd-a62a-7b7da6df847a")
+        YMMYandexMetrica.activate(with: configuration!)
     }
     
     //MARK:- TabBar

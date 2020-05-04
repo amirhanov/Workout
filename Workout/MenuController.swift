@@ -34,28 +34,24 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
         super.viewDidLoad()
         
         fetchData()
+        randomCount()
         setupTableView()
-        let sum = historyArray.reduce(0) { $0 + $1.duration }
-        workoutCountLabel.text = "\(historyArray.count)"
-        minCountLabel.text = "\(Int(sum)) мин"
-        wave_2.transform = CGAffineTransform(translationX: 0, y: 40)
-        wave_3.transform = CGAffineTransform(translationX: 0, y: 40)
-        
-        let kcal = sum * 12
-        kcalLabel.text = "≈ \(Int(kcal)) ккал"
+        setupAnimation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupAnimation()
-        randomCount()
+        startAnimation()
     }
     
+    //MARK:- Рандомное место в топе
+    
     func randomCount() {
-        let randomInt = Int.random(in: 1000..<99999)
-        
-        randomLabel.text = "Вы продуктивнее \(randomInt) пользователей"
+        let randomInt = Int.random(in: 10000..<99999)
+        randomLabel.text = "Сегодня Вы продуктивнее \(randomInt) пользователей"
     }
+    
+    //MARK:- Получение данных
     
     fileprivate var fetchResultController: NSFetchedResultsController<Workouts>!
     func fetchData() {
@@ -82,9 +78,24 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
         if historyArray.count == 0 {
             historyLabel.text = " "
         }
+        
+        let sum = historyArray.reduce(0) { $0 + $1.duration }
+        workoutCountLabel.text = "\(historyArray.count)"
+        minCountLabel.text = "\(Int(sum)) мин"
+        
+        let kcal = sum * 12
+        kcalLabel.text = "≈ \(Int(kcal)) ккал"
     }
     
+    
+    //MARK:- Настройка анимации
+    
     func setupAnimation() {
+        wave_2.transform = CGAffineTransform(translationX: 0, y: 40)
+        wave_3.transform = CGAffineTransform(translationX: 0, y: 40)
+    }
+    
+    func startAnimation() {
         
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
             self.wave_2.transform = CGAffineTransform.identity
@@ -126,7 +137,7 @@ class MenuController: UIViewController, NSFetchedResultsControllerDelegate, UITa
         
         cell.titleLabel.text = section.title  ?? "Нет данных"
         cell.dateLabel.text = section.date  ?? "Нет данных"
-        cell.levelLabel.text = section.level ?? "Нет данных"
+        cell.levelLabel.text = "\(section.level ?? "Нет данных") уровень"
         cell.coverImageView.sd_setImage(with: URL(string: section.img ?? "")) { (image, error, cache, url) in
             if (error != nil) {
                 cell.activityIndicator.startAnimating()

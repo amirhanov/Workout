@@ -1,13 +1,21 @@
 import AVKit
-import AVFoundation
 import UIKit
 import CoreData
+import Firebase
+import FacebookCore
+import AVFoundation
+import AudioToolbox
+import YandexMobileMetrica
 
 class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var data: WorkoutModel!
     let gradientModel = GradientModel()
     let animationModel = AnimationModel()
+    let analyticModel = AnalyticModel()
+    let gradient = CAGradientLayer()
+    let gradientLayer = CAGradientLayer()
+    
     
     //@IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var airplayImageView: UIImageView!
@@ -34,7 +42,11 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewDidLayoutSubviews() {
-        setupBlurView()
+        setupVideoView()
+        
+        gradient.frame = startButton.bounds
+        gradientLayer.frame = blurView.bounds
+        
     }
     
     @objc func playerDidFinishPlaying(note: NSNotification) {
@@ -54,7 +66,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     func getData() {
         sectionLabel.text = data.titleSection
         titleLabel.text = data.title
-        timeLabel.text = "\(data.level) - \(data.duration)"
+        timeLabel.text = "\(data.level) уровень - \(data.duration) мин"
         descriptionLabel.text = data.description
         //coverImageView.sd_setImage(with: URL(string: data.img), completed: nil)
     }
@@ -86,6 +98,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
         playerViewController.player = player
         self.present(playerViewController, animated: true) {
             AudioServicesPlaySystemSound(1520)
+            self.analyticModel.setEvent(event: "Начать_тренировку", key: "Экран", value: "Тренировка")
             playerViewController.player!.play()
             let assets = AVAsset(url: videoURL!)
             let duration = assets.duration
@@ -96,7 +109,6 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func setupStartButton() {
-        let gradient = CAGradientLayer()
         
         let colorLeft = #colorLiteral(red: 0.968627451, green: 0.3333333333, blue: 0.431372549, alpha: 1).cgColor
         let colorRight = #colorLiteral(red: 0.8666666667, green: 0.0862745098, blue: 0.4392156863, alpha: 1).cgColor
@@ -112,7 +124,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     //MARK:-
     func setupVideoView() {
-        let videoURL = URL(string: "http://byidole.com/\(data.previewVideo)")
+        let videoURL = URL(string: data.previewVideo)
         let player = AVPlayer(url: videoURL!)
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = videoView.frame
@@ -126,7 +138,7 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     func setupBlurView() {
         
-        let gradientLayer = CAGradientLayer()
+        
         let colorBottom = UIColor(named: "ShadowColor")?.cgColor
         let colorTop = UIColor(named: "ShadowColor")?.withAlphaComponent(0).cgColor
         
@@ -154,15 +166,25 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return data.examples.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! WorkoutDetailCell
+        let section = data.examples[indexPath.row]
             
-        cell.nameLabel.text = "123"
-        cell.typeLabel.text = "123"
-        cell.timeLabel.text = "123"
+        cell.nameLabel.text = section.title
+        cell.typeLabel.text = section.type
+        cell.timeLabel.text = section.time
+        
+        cell.coverImageView.sd_setImage(with: URL(string: section.img)) { (image, error, cache, url) in
+            if (error != nil) {
+                cell.activityIndicator.startAnimating()
+            } else {
+                cell.coverImageView.image = image
+                cell.activityIndicator.isHidden = true
+            }
+        }
         
         let selectedView = UIView()
         selectedView.backgroundColor = .clear

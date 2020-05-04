@@ -10,7 +10,9 @@ target 'Workout' do
  pod 'SPAlert'
  pod 'SDWebImage'
  pod 'KDCircularProgress'
- pod 'Tabman'
  pod 'SwiftyStoreKit'
+ pod 'Firebase/Analytics'
+ pod 'YandexMobileMetrica'
+ pod 'FacebookCore'
 
 end

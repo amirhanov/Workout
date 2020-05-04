@@ -44,6 +44,8 @@
 		7F7C60B3243505760046D63E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7C60B1243505760046D63E /* Main.storyboard */; };
 		7F7C60B52435057F0046D63E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F7C60B42435057F0046D63E /* Assets.xcassets */; };
 		7F7C60B82435057F0046D63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7C60B62435057F0046D63E /* LaunchScreen.storyboard */; };
+		7F8158E1245C8680002E6C04 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F8158E0245C8680002E6C04 /* GoogleService-Info.plist */; };
+		7F8158E3245C8AA3002E6C04 /* AnalyticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8158E2245C8AA3002E6C04 /* AnalyticModel.swift */; };
 		7F8CB7E3243657F900CBEFB1 /* AnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CB7E2243657F900CBEFB1 /* AnimationModel.swift */; };
 		7F8CB7E6243658E200CBEFB1 /* SPAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CB7E5243658E200CBEFB1 /* SPAlertModel.swift */; };
 		7FAD541A2455F05C0070635D /* SSKModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAD54192455F05C0070635D /* SSKModel.swift */; };
@@ -95,6 +97,8 @@
 		7F7C60B42435057F0046D63E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F7C60B72435057F0046D63E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F7C60B92435057F0046D63E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F8158E0245C8680002E6C04 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7F8158E2245C8AA3002E6C04 /* AnalyticModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticModel.swift; sourceTree = "<group>"; };
 		7F8CB7E2243657F900CBEFB1 /* AnimationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationModel.swift; sourceTree = "<group>"; };
 		7F8CB7E5243658E200CBEFB1 /* SPAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPAlertModel.swift; sourceTree = "<group>"; };
 		7FAD54192455F05C0070635D /* SSKModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSKModel.swift; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 				7F7C60B42435057F0046D63E /* Assets.xcassets */,
 				7F7C60B62435057F0046D63E /* LaunchScreen.storyboard */,
 				7F7C60B92435057F0046D63E /* Info.plist */,
+				7F8158E0245C8680002E6C04 /* GoogleService-Info.plist */,
 				7F8CB7E4243658CD00CBEFB1 /* Model */,
 			);
 			path = Workout;
@@ -174,6 +179,7 @@
 				7F45B8E42442136200FAA9EB /* SubscriptionModel.swift */,
 				7F70CE39244760B700B9DCD6 /* RecipeModel.swift */,
 				7FAD54192455F05C0070635D /* SSKModel.swift */,
+				7F8158E2245C8AA3002E6C04 /* AnalyticModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 				7FF6577A2437B74100A51406 /* DPBold.otf in Resources */,
 				7F7C60B52435057F0046D63E /* Assets.xcassets in Resources */,
 				7F7C60B3243505760046D63E /* Main.storyboard in Resources */,
+				7F8158E1245C8680002E6C04 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +393,7 @@
 				7F7C60B0243505760046D63E /* HomeController.swift in Sources */,
 				7F45B8E3244212DF00FAA9EB /* SubscriptionCell.swift in Sources */,
 				7F8CB7E3243657F900CBEFB1 /* AnimationModel.swift in Sources */,
+				7F8158E3245C8AA3002E6C04 /* AnalyticModel.swift in Sources */,
 				7F519CAA243905AC00D1F86D /* NutritionCell.swift in Sources */,
 				7F45B8D72442001B00FAA9EB /* OnboardCell.swift in Sources */,
 				7F6F899124462CA900BD3921 /* CoreDataStack.swift in Sources */,
@@ -572,7 +580,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Workout;
+				MARKETING_VERSION = 3.0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.training.workout.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -591,7 +600,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Workout;
+				MARKETING_VERSION = 3.0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.training.workout.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

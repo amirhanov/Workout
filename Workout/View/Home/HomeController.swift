@@ -7,54 +7,94 @@
 //
 
 import UIKit
+import Firebase
 import StoreKit
 import MessageUI
 import SDWebImage
+import FacebookCore
 import AudioToolbox
 import SwiftyStoreKit
+import YandexMobileMetrica
 
 class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, MFMailComposeViewControllerDelegate {
     
+    @IBOutlet weak var subscriptionStackView: UIStackView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var subscriptionButton: UIButton!
     
+    let analyticModel = AnalyticModel()
     let animationModel = AnimationModel()
     let spAlertModel = SPAlertModel()
     let sskModel = SSKModel()
     let items = ["Поделиться", "Оценить", "Написать нам"]
+    let status = UserDefaults.standard.bool(forKey: "isOnboardViewed")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         setupTableView()
         setupPageControl()
         setupNavigationBar()
         setupCollectionView()
     }
+
+    @IBAction func subscriptionButtonTapped(_ sender: Any) {
+        analyticModel.setEvent(event: "Открыть_экран_подписки", key: "Экран", value: "Главный")
+        AudioServicesPlaySystemSound(1520)
+    }
+    
+    //MARK:- Экраны настроек тренировки
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let status = UserDefaults.standard.bool(forKey: "isOnboardViewed")
-        
+        validateOnboard()
+    }
+    
+    func validateOnboard() {
         if status == true {
-            //validateSubscribe()
+            validateSubscribe()
+            analyticModel.setEvent(event: "Повторный_вход", key: "Экран", value: "Главный")
         } else {
+            analyticModel.setEvent(event: "Первый_вход", key: "Экран", value: "Главный")
             let vc = storyboard?.instantiateViewController(identifier: "onboardController")
             self.present(vc!, animated: true)
         }
-    }
-
-    @IBAction func subscriptionButtonTapped(_ sender: Any) {
-        AudioServicesPlaySystemSound(1520)
     }
     
     //MARK:- Валидация подписки
     
     func validateSubscribe() {
-        sskModel.validateAction(sharedSecret: "")
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "6748ba82cdf84e9dac95c3df0e93fd24")
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            if case .success(let receipt) = result {
+                let productIds = Set([ "com.training.workout.monthly",
+                                       "com.training.workout.halfyear",
+                                       "com.training.workout.year"])
+                let purchaseResult = SwiftyStoreKit.verifySubscriptions(productIds: productIds, inReceipt: receipt)
+                switch purchaseResult {
+                case .purchased( _, _):
+                    self.haveSubscription()
+                case .expired( _, _):
+                    self.nothaveSubscription()
+                case .notPurchased:
+                    self.nothaveSubscription()
+                }
+            } else {
+                self.nothaveSubscription()
+            }
+        }
+    }
+    
+    func haveSubscription() {
+        self.subscriptionStackView.isHidden = true
+        for index in 0..<sectionArray.count { sectionArray[index].isLock = false }
+    }
+    
+    func nothaveSubscription() {
+        self.subscriptionStackView.isHidden = false
     }
     
     //MARK:- PageControl
@@ -113,6 +153,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func handleMenu() {
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Открыть_меню", key: "Экран", value: "Главный")
         let vc = storyboard?.instantiateViewController(identifier: "menuController")
         self.present(vc!, animated: true)
     }
@@ -191,6 +232,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
+        cell.descriptionLabel.text = section.description
+        
         //MARK:- BlurView
 
         let shadowLayer = CAGradientLayer()
@@ -232,6 +275,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             animationModel.shakeAnimation(sender: cell!.infoStackView)
         } else {
             AudioServicesPlaySystemSound(1520)
+            analyticModel.setEvent(event: "Открыть_секцию", key: "Секция", value: sectionArray[indexPath.row].title)
             let vc = storyboard?.instantiateViewController(identifier: "workoutController") as! WorkoutController
             vc.data = section
             self.navigationController?.pushViewController(vc, animated: true)
@@ -311,10 +355,13 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if section == 0 && row == 0 {
             self.shareApp()
+            self.analyticModel.setEvent(event: "Поделиться_приложением", key: "Экран", value: "Главный")
         } else if section == 0 && row == 1 {
-            self.rateApp(appID: "")
+            self.rateApp(appID: "1367484787")
+            self.analyticModel.setEvent(event: "Оценить_приложение", key: "Экран", value: "Главный")
         } else if section == 0 && row == 2 {
             self.sendMail(to: "studio@byidole.com")
+            self.analyticModel.setEvent(event: "Написать_в_поддержку", key: "Экран", value: "Главный")
         } else {
             
         }

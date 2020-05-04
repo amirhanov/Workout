@@ -7,7 +7,11 @@
 //
 
 import UIKit
+import Firebase
+import FacebookCore
 import AudioToolbox
+import SwiftyStoreKit
+import YandexMobileMetrica
 
 class SubscriptionController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -22,14 +26,15 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var subscriptionTextView: UITextView!
     
     let animationModel = AnimationModel()
+    let analyticModel = AnalyticModel()
     let sskModel = SSKModel()
+    let spAlertModel = SPAlertModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         annualView.layer.borderWidth = 3
         annualView.layer.borderColor = #colorLiteral(red: 0.137254902, green: 0.737254902, blue: 0.4470588235, alpha: 1)
-        subscriptionArray.append("Бесплатно продолжить")
         setupTableView()
         setupTextAndLink()
         setupNavigationBar()
@@ -61,23 +66,113 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func annualButtonTapped(_ sender: Any) {
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Купить_годовую_подписку", key: "Экран", value: "Подписки_настройки")
         animationModel.scaleAnimationView(sender: annualView, scaleX: 0.97, scaleY: 0.97, duration: 0.1)
         annualActivityIndicator.isHidden = false
         annualActivityIndicator.startAnimating()
+        
+        SwiftyStoreKit.purchaseProduct("com.training.workout.year", quantity: 1, atomically: true) { result in
+            switch result {
+            case .success( _):
+                self.setupActivityIndicator()
+                self.spAlertModel.openIconSPAlert(title: "Поздравляем 🎉",
+                                             message: "Вам доступен полный доступ",
+                                             preset: .heart,
+                                             duration: 3)
+            case .error(let error):
+                switch error.code {
+                case .unknown: print("Unknown error. Please contact support")
+                case .clientInvalid: print("Not allowed to make the payment")
+                case .paymentCancelled: break
+                case .paymentInvalid: print("The purchase identifier was invalid")
+                case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                default: break
+                }
+                self.setupActivityIndicator()
+                self.spAlertModel.openIconSPAlert(title: "Ошибка",
+                                                  message: "Что-то пошло не так",
+                                                  preset: .card,
+                                                  duration: 3)
+            }
+        }
     }
     
     @IBAction func monthlyButtonTapped(_ sender: Any) {
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Купить_месячную_подписку", key: "Экран", value: "Подписки_настройки")
         animationModel.scaleAnimationView(sender: monthlyView, scaleX: 0.97, scaleY: 0.97, duration: 0.1)
         monthlyActivityIndicator.isHidden = false
         monthlyActivityIndicator.startAnimating()
+        
+        SwiftyStoreKit.purchaseProduct("com.training.workout.monthly", quantity: 1, atomically: true) { result in
+            switch result {
+            case .success( _):
+                self.setupActivityIndicator()
+                self.spAlertModel.openIconSPAlert(title: "Поздравляем 🎉",
+                                             message: "Вам доступен полный доступ",
+                                             preset: .heart,
+                                             duration: 3)
+            case .error(let error):
+                switch error.code {
+                case .unknown: print("Unknown error. Please contact support")
+                case .clientInvalid: print("Not allowed to make the payment")
+                case .paymentCancelled: break
+                case .paymentInvalid: print("The purchase identifier was invalid")
+                case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                default: break
+                }
+                self.setupActivityIndicator()
+                self.spAlertModel.openIconSPAlert(title: "Ошибка",
+                                                  message: "Что-то пошло не так",
+                                                  preset: .heart,
+                                                  duration: 3)
+            }
+        }
     }
     
     @IBAction func lifetimeButtonTapped(_ sender: Any) {
         AudioServicesPlaySystemSound(1520)
+        analyticModel.setEvent(event: "Купить_полугодовую_подписку", key: "Экран", value: "Подписки_настройки")
         animationModel.scaleAnimationView(sender: lifetimeView, scaleX: 0.97, scaleY: 0.97, duration: 0.1)
         lifetimeActivityIndicator.isHidden = false
         lifetimeActivityIndicator.startAnimating()
+        
+        SwiftyStoreKit.purchaseProduct("com.training.workout.halfyear", quantity: 1, atomically: true) { result in
+            switch result {
+            case .success( _):
+                self.setupActivityIndicator()
+                self.spAlertModel.openIconSPAlert(title: "Поздравляем 🎉",
+                                             message: "Вам доступен полный доступ",
+                                             preset: .heart,
+                                             duration: 3)
+            case .error(let error):
+                switch error.code {
+                case .unknown: print("Unknown error. Please contact support")
+                case .clientInvalid: print("Not allowed to make the payment")
+                case .paymentCancelled: break
+                case .paymentInvalid: print("The purchase identifier was invalid")
+                case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                default: break
+                }
+                self.setupActivityIndicator()
+                self.spAlertModel.openIconSPAlert(title: "Ошибка",
+                                                  message: "Что-то пошло не так",
+                                                  preset: .heart,
+                                                  duration: 3)
+            }
+        }
     }
     
     //MARK:- NavigationBar
@@ -104,6 +199,7 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
     
     @objc func handleRestore() {
         sskModel.restoreAction()
+        analyticModel.setEvent(event: "Восстановить_подписку", key: "Экран", value: "Подписки_настройки")
     }
     
     func setupNavigationBarBackButton() {
@@ -161,9 +257,10 @@ class SubscriptionController: UIViewController, UITableViewDelegate, UITableView
         
         if section == 0 && row == 3 {
             AudioServicesPlaySystemSound(1520)
+            UserDefaults.standard.set(true, forKey: "isOnboardViewed")
             let vc = storyboard?.instantiateViewController(identifier: "homeController")
             self.present(vc!, animated: true)
-            UserDefaults.standard.set(true, forKey: "isOnboardViewed")
+            analyticModel.setEvent(event: "Продолжить_бесплатно", key: "Экран", value: "Подписки_настройки")
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
