@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 import YandexMobileMetrica
 import FirebaseCoreDiagnostics
 import YandexMobileMetricaCrashes
@@ -16,15 +17,56 @@ import YandexMobileMetricaCrashes
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    let notificationCenter = UNUserNotificationCenter.current()
     lazy var coreDataStack = CoreDataStack()
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         setupTabbar()
         setupAnalytics()
+        setupNotification()
         
         return true
     }
+    
+    //MARK:- Настройка уведомлений
+        
+        func setupNotification() {
+            notificationCenter.delegate = self
+            let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+            
+            notificationCenter.requestAuthorization(options: options) {
+                (didAllow, error) in
+                if !didAllow {
+                    print("User has declined notifications")
+                }
+            }
+        }
+        
+        func scheduleNotification(notificationType: String) {
+            
+            let content = UNMutableNotificationContent() // Содержимое уведомления
+            
+            content.title = "Возвращайся скорее"
+            content.body = "Каждая тренировка имеет значение 🎉"
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1200, repeats: false)
+            let identifier = "Local Notification"
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            
+            notificationCenter.add(request) { (error) in
+                if let error = error {
+                    print("Error \(error.localizedDescription)")
+                }
+            }
+        }
+        
+        func applicationDidBecomeActive(_ application: UIApplication) {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
     
     //MARK:- Аналитика
     
@@ -68,3 +110,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+           
+           if response.notification.request.identifier == "Local Notification" {
+            
+           }
+           
+           completionHandler()
+       }
+}

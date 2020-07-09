@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import StoreKit
+import CoreData
 import MessageUI
 import SDWebImage
 import FacebookCore
@@ -28,14 +29,17 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let animationModel = AnimationModel()
     let spAlertModel = SPAlertModel()
     let sskModel = SSKModel()
-    let items = ["Поделиться", "Оценить", "Написать нам"]
+    let items = ["Поделиться", "Оценить", "Написать нам", "Иконка приложения", "Сбросить прогресс"]
     let status = UserDefaults.standard.bool(forKey: "isOnboardViewed")
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        
         setupTableView()
         setupPageControl()
+        //validateSubscribe()
         setupNavigationBar()
         setupCollectionView()
     }
@@ -55,7 +59,6 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func validateOnboard() {
         if status == true {
-            validateSubscribe()
             analyticModel.setEvent(event: "Повторный_вход", key: "Экран", value: "Главный")
         } else {
             analyticModel.setEvent(event: "Первый_вход", key: "Экран", value: "Главный")
@@ -95,6 +98,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func nothaveSubscription() {
         self.subscriptionStackView.isHidden = false
+        let vc = storyboard?.instantiateViewController(identifier: "subscriptionSController")
+        self.present(vc!, animated: true)
     }
     
     //MARK:- PageControl
@@ -273,8 +278,13 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if section.isLock == true  {
             AudioServicesPlaySystemSound(1521)
             animationModel.shakeAnimation(sender: cell!.infoStackView)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                let vc = self.storyboard?.instantiateViewController(identifier: "subscriptionSController")
+                self.present(vc!, animated: true)
+            }
         } else {
             AudioServicesPlaySystemSound(1520)
+            setupNotification()
             analyticModel.setEvent(event: "Открыть_секцию", key: "Секция", value: sectionArray[indexPath.row].title)
             let vc = storyboard?.instantiateViewController(identifier: "workoutController") as! WorkoutController
             vc.data = section
@@ -293,6 +303,12 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         pageControl?.currentPage = Int(scrollView.contentOffset.x)/Int(scrollView.frame.width)
     }
+    
+    //MARK:- Настройка уведомлний
+        
+        func setupNotification() {
+            self.appDelegate?.scheduleNotification(notificationType: "Local Notification")
+        }
     
     //MARK:- TableView
     
@@ -323,11 +339,15 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.titleLabel.text = section
         cell.contentView.alpha = 0
         
-        if row == 0 {
+        if row == 3 {
             cell.badgeView.isHidden = false
+        } else if row == 4 {
+            cell.titleLabel.tintColor = .red
+            cell.badgeView.isHidden = true
         } else {
             cell.badgeView.isHidden = true
         }
+        
         
         let selectedView = UIView()
         selectedView.backgroundColor = UIColor(named: "SelectedColor")
@@ -362,11 +382,55 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if section == 0 && row == 2 {
             self.sendMail(to: "studio@byidole.com")
             self.analyticModel.setEvent(event: "Написать_в_поддержку", key: "Экран", value: "Главный")
-        } else {
-            
+        } else if section == 0 && row == 3 {
+            self.changeAppIcon()
+            self.analyticModel.setEvent(event: "Сменить_иконку", key: "Экран", value: "Главный")
+        } else if section == 0 && row == 4 {
+            self.deleteProgress()
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    //MARK:- Сбросить прогресс
+    
+    func deleteProgress() {
+        let alertController = UIAlertController(title: "Подтверждение", message: "Вы точно хотите сбросить прогресс?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Подтвердить", style: .destructive, handler: { (action) in
+            let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Workouts")
+            let delete = NSBatchDeleteRequest(fetchRequest: request)
+            
+            do {
+                try context!.execute(delete)
+                try context!.save()
+                self.spAlertModel.openTextSPAlert(message: "Не получилось сбросить прогресс! Повторте попытку.",
+                                             duration: 3)
+            } catch {
+                self.spAlertModel.openTextSPAlert(message: "Не получилось сбросить прогресс! Повторте попытку.",
+                                             duration: 3)
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    //MARK:- Сменить иконку приложения
+    
+    func changeAppIcon() {
+        if UIApplication.shared.supportsAlternateIcons {
+            if UIApplication.shared.alternateIconName != nil {
+                UIApplication.shared.setAlternateIconName(nil)
+            } else {
+                UIApplication.shared.setAlternateIconName("AlternateAppIcon") { (error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        print("Готово")
+                    }
+                }
+            }
+        }
     }
     
     //MARK:- Оценить приложение

@@ -170,6 +170,12 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    //MARK: - 
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     //MARK:- NavigationBar
     
     func setupNavigationBar() {
@@ -177,7 +183,7 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
         setupNavigationBarLayout()
         setupNavigationBarRightButton()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { self.setupNavigationBarLeftButton() }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) { self.setupNavigationBarLeftButton() }
     }
     
     func setupNavigationBarTitle() {
@@ -186,7 +192,7 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
     
     func setupNavigationBarRightButton() {
         let restoreButton = UIBarButtonItem()
-        restoreButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "DIN Pro", size: 18.0)!, NSAttributedString.Key.foregroundColor: UIColor(named: "PrimaryColor")!], for: .normal)
+        restoreButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "DIN Pro", size: 18.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         restoreButton.title = "Восстановить"
         restoreButton.target = self
         restoreButton.action = #selector(handleRestore)
@@ -202,7 +208,7 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
         let menuButton = UIButton()
         let menuBarItem = UIBarButtonItem(customView: menuButton)
         menuButton.setImage(#imageLiteral(resourceName: "close_22").withRenderingMode(.alwaysTemplate), for: .normal)
-        menuButton.tintColor = UIColor(named: "PrimaryColor")
+        menuButton.tintColor = .white
         menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 14, height: 14)
         menuButton.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = menuBarItem
@@ -236,7 +242,7 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
         self.subscriptionTextView.textAlignment = .center
 
         self.subscriptionTextView.linkTextAttributes = [
-            .foregroundColor: UIColor(named: "PrimaryColor") ?? ""
+            .foregroundColor: UIColor.white
         ]
     }
     

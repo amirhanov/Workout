@@ -34,6 +34,9 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewOverlay.isHidden = true
+        labelCountDown.isHidden = true
+        
         getData()
         setupBlurView()
         setupVideoView()
@@ -91,20 +94,51 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     //MARK:-
     
     var durationData: Float = 0.0
+    let viewOverlay = UIView()
+    let labelCountDown = UIButton()
     @IBAction func startButtonTapped(_ sender: Any) {
-        let videoURL = URL(string: data.video)
-        let player = AVPlayer(url: videoURL!)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-        self.present(playerViewController, animated: true) {
-            AudioServicesPlaySystemSound(1520)
-            self.analyticModel.setEvent(event: "Начать_тренировку", key: "Экран", value: "Тренировка")
-            playerViewController.player!.play()
-            let assets = AVAsset(url: videoURL!)
-            let duration = assets.duration
-            self.durationData =  Float(CMTimeGetSeconds(duration) / 60)
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+        
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+    
+        
+        viewOverlay.backgroundColor = .systemBackground
+        viewOverlay.frame = view.frame
+        
+        labelCountDown.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        labelCountDown.titleLabel!.font = UIFont(descriptor: UIFontDescriptor().withSymbolicTraits([.traitBold, .traitItalic])!, size: 160)
+        labelCountDown.frame = viewOverlay.frame
+        
+        self.view.addSubview(viewOverlay)
+        viewOverlay.addSubview(labelCountDown)
+        
+        viewOverlay.isHidden = false
+        labelCountDown.isHidden = false
+    }
+    
+    var counter = 4
+    @objc func updateCounter() {
+        if counter > 0 {
+            counter -= 1
+            labelCountDown.setTitle(String(counter), for: .normal)
+            if counter == 0 {
+                viewOverlay.isHidden = true
+                labelCountDown.isHidden = true
+
+                let videoURL = URL(string: data.video)
+                let player = AVPlayer(url: videoURL!)
+                let playerViewController = AVPlayerViewController()
+                playerViewController.player = player
+                self.present(playerViewController, animated: true) {
+                    AudioServicesPlaySystemSound(1520)
+                    self.analyticModel.setEvent(event: "Начать_тренировку", key: "Экран", value: "Тренировка")
+                    playerViewController.player!.play()
+                    let assets = AVAsset(url: videoURL!)
+                    let duration = assets.duration
+                    self.durationData =  Float(CMTimeGetSeconds(duration) / 60)
+
+                    NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+                }
+            }
         }
     }
     
@@ -124,10 +158,10 @@ class WorkoutDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     //MARK:-
     func setupVideoView() {
-        let videoURL = URL(string: data.previewVideo)
+        let videoURL = URL(string: self.data.previewVideo)
         let player = AVPlayer(url: videoURL!)
         let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = videoView.frame
+        playerLayer.frame = self.videoView.frame
         playerLayer.videoGravity = .resizeAspectFill
         self.videoView.layer.addSublayer(playerLayer)
         player.isMuted = true
