@@ -39,7 +39,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         setupTableView()
         setupPageControl()
-        //validateSubscribe()
+        validateSubscribe()
         setupNavigationBar()
         setupCollectionView()
     }
@@ -342,7 +342,6 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if row == 3 {
             cell.badgeView.isHidden = false
         } else if row == 4 {
-            cell.titleLabel.tintColor = .red
             cell.badgeView.isHidden = true
         } else {
             cell.badgeView.isHidden = true
@@ -387,6 +386,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.analyticModel.setEvent(event: "Сменить_иконку", key: "Экран", value: "Главный")
         } else if section == 0 && row == 4 {
             self.deleteProgress()
+            self.analyticModel.setEvent(event: "Сбросить_прогресс", key: "Экран", value: "Главный")
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -404,7 +404,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             do {
                 try context!.execute(delete)
                 try context!.save()
-                self.spAlertModel.openTextSPAlert(message: "Не получилось сбросить прогресс! Повторте попытку.",
+                self.spAlertModel.openTextSPAlert(message: "Успешно! Можем начать тренировки сначала.",
                                              duration: 3)
             } catch {
                 self.spAlertModel.openTextSPAlert(message: "Не получилось сбросить прогресс! Повторте попытку.",

@@ -22,20 +22,11 @@
                                     <constraint firstAttribute="width" secondItem="4QR-M7-3ZZ" secondAttribute="height" multiplier="14:3" id="qPr-Y3-Cdp"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="#workout_28" translatesAutoresizingMaskIntoConstraints="NO" id="sbO-gq-GM1">
-                                <rect key="frame" x="24" y="822" width="366" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="OcQ-kH-jtA"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="4QR-M7-3ZZ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="DUG-iB-PXb"/>
                             <constraint firstItem="4QR-M7-3ZZ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="PYk-4c-0Hs"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sbO-gq-GM1" secondAttribute="trailing" constant="24" id="Ri5-yM-1WL"/>
-                            <constraint firstItem="sbO-gq-GM1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="TRs-01-vcE"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sbO-gq-GM1" secondAttribute="bottom" constant="24" id="vSu-f5-Wb8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -46,7 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="#workout_28" width="65" height="16"/>
         <image name="launchscreen_22" width="111" height="21"/>
     </resources>
 </document>

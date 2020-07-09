@@ -37,6 +37,13 @@ class SubscriptionSController: UIViewController, UITableViewDelegate, UITableVie
 
         annualView.layer.borderWidth = 3
         annualView.layer.borderColor = #colorLiteral(red: 0.137254902, green: 0.737254902, blue: 0.4470588235, alpha: 1)
+        
+        monthlyView.layer.borderWidth = 1
+        monthlyView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
+        
+        lifetimeView.layer.borderWidth = 1
+        lifetimeView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
+        
         startTimer()
         setupTableView()
         setupTextAndLink()
