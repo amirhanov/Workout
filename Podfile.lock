@@ -67,7 +67,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
-  - KDCircularProgress (1.5.4)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -91,7 +90,6 @@ PODS:
 DEPENDENCIES:
   - FacebookCore
   - Firebase/Analytics
-  - KDCircularProgress
   - SDWebImage
   - SPAlert
   - SwiftyStoreKit
@@ -111,7 +109,6 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
-    - KDCircularProgress
     - nanopb
     - PromisesObjC
     - SDWebImage
@@ -132,7 +129,6 @@ SPEC CHECKSUMS:
   GoogleDataTransport: a857c6a002d201b524dd4bc2ed7e7355ed07e785
   GoogleDataTransportCCTSupport: 32f75fbe904c82772fcbb6b6bd4525bfb6f2a862
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
-  KDCircularProgress: 98200c6b8e85d22bc04eb644721d3b1e12b0686b
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
@@ -140,6 +136,6 @@ SPEC CHECKSUMS:
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
   YandexMobileMetrica: 1030df2959c886a7be3bc3d274eb54c8e86afd6f
 
-PODFILE CHECKSUM: 7522824c535419dc146319d182144d0dfe5f9abd
+PODFILE CHECKSUM: 8f6fc87f2c892f7441fce98d6feccf58a4c95b8c
 
 COCOAPODS: 1.7.5
