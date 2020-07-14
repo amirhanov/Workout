@@ -448,10 +448,9 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK:- Поделиться
     
     func shareApp() {
-        let text = "This is the text...."
-        let image = #imageLiteral(resourceName: "star_22")
-        let url = ""
-        let shareAll = [image, text, url] as [Any]
+        let text = "Будь в форме вместе с Workout! Приложение "
+        let url = "https://apps.apple.com/us/app/id1367484787"
+        let shareAll = [text, url] as [Any]
         let activityViewController = UIActivityViewController(activityItems: shareAll,
                                                               applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
