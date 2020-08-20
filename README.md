@@ -36,6 +36,3 @@ pod 'SPAlert'
 
 Скачайте приложение в [AppStore](https://apps.apple.com/ru/app/workout-gym-home-training/id1367484787).
 
-## Автор
-
-Рустам Амирханов.
